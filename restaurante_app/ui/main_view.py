@@ -117,7 +117,7 @@ class MainView(tk.Frame):
 
     # ---------------- ESTRUCTURA: MENU LATERAL + CONTENIDO ----------------
     def construir_interfaz(self):
-        frame_sidebar = tk.Frame(self, bg=self.color_encabezado, width=190, padx=16, pady=18)
+        frame_sidebar = tk.Frame(self, bg=self.color_encabezado, width=215, padx=16, pady=18)
         frame_sidebar.pack(side="left", fill="y")
         frame_sidebar.pack_propagate(False)
 

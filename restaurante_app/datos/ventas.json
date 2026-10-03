@@ -4,5 +4,11 @@
         "usuario_id": "3010",
         "producto_codigo": "P001",
         "fecha": "2026-10-02"
+    },
+    {
+        "identificador": "V002",
+        "usuario_id": "3010",
+        "producto_codigo": "P001",
+        "fecha": "2026-10-02"
     }
 ]
