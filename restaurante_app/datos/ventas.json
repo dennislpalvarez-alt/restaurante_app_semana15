@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "identificador": "V001",
+        "usuario_id": "3010",
+        "producto_codigo": "P001",
+        "fecha": "2026-10-02"
+    }
+]

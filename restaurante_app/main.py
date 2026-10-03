@@ -39,6 +39,7 @@ class AplicacionRestaurante:
         try:
             self.icono_app = tk.PhotoImage(file=str(ruta_icono))
             self.root.iconphoto(True, self.icono_app)
+            print(f"Logo cargado correctamente desde {ruta_icono}")
         except tk.TclError as e:
             print(f"Error al cargar el icono: {e}")
 

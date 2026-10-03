@@ -1,4 +1,5 @@
 import tkinter as tk
+from pathlib import Path
 from tkinter import messagebox, ttk
 
 
@@ -34,8 +35,36 @@ class MainView(tk.Frame):
         self.opciones_usuarios_venta = {}
         self.opciones_productos_venta = {}
 
+        # Semana 15: íconos del menú y de acciones (assets/icons)
+        self.iconos = {}
+        self.cargar_iconos()
+
         self.definir_estilos()
         self.construir_interfaz()
+
+    # ---------------- ICONOS (assets/icons) ----------------
+    def cargar_iconos(self):
+        """Carga los íconos PNG desde assets/icons/ y conserva su referencia
+        (si no se guarda una referencia, Tkinter los descarta y el botón
+        queda sin imagen)."""
+        carpeta_icons = Path(__file__).resolve().parent.parent / "assets" / "icons"
+        nombres = {
+            "inicio": "icon_inicio.png",
+            "usuarios": "icon_usuarios.png",
+            "productos": "icon_productos.png",
+            "ventas": "icon_ventas.png",
+            "agregar": "icon_agregar.png",
+            "salir": "icon_salir.png",
+        }
+        for clave, archivo in nombres.items():
+            ruta = carpeta_icons / archivo
+            if ruta.exists():
+                try:
+                    self.iconos[clave] = tk.PhotoImage(file=str(ruta))
+                except tk.TclError:
+                    self.iconos[clave] = None
+            else:
+                self.iconos[clave] = None
 
     # ---------------- ESTILOS ----------------
     def definir_estilos(self):
@@ -78,7 +107,12 @@ class MainView(tk.Frame):
             foreground=self.color_encabezado, font=("Arial", 10, "bold"),
         )
 
-    def crear_boton(self, contenedor, texto, comando, estilo):
+    def crear_boton(self, contenedor, texto, comando, estilo, icono=None):
+        if icono and self.iconos.get(icono):
+            return ttk.Button(
+                contenedor, text=texto, command=comando, style=estilo,
+                image=self.iconos[icono], compound="left",
+            )
         return ttk.Button(contenedor, text=texto, command=comando, style=estilo)
 
     # ---------------- ESTRUCTURA: MENU LATERAL + CONTENIDO ----------------
@@ -97,15 +131,15 @@ class MainView(tk.Frame):
             fg="#dbeafe", font=("Arial", 10), wraplength=150, justify="left",
         ).pack(anchor="w", pady=(0, 24))
 
-        self.crear_boton_menu(frame_sidebar, "Inicio", self.mostrar_inicio)
-        self.crear_boton_menu(frame_sidebar, "Usuarios", self.mostrar_usuarios)
-        self.crear_boton_menu(frame_sidebar, "Productos", self.mostrar_productos)
-        self.crear_boton_menu(frame_sidebar, "Ventas", self.mostrar_ventas)  # Semana 15
+        self.crear_boton_menu(frame_sidebar, "Inicio", self.mostrar_inicio, "inicio")
+        self.crear_boton_menu(frame_sidebar, "Usuarios", self.mostrar_usuarios, "usuarios")
+        self.crear_boton_menu(frame_sidebar, "Productos", self.mostrar_productos, "productos")
+        self.crear_boton_menu(frame_sidebar, "Ventas", self.mostrar_ventas, "ventas")  # Semana 15
 
         tk.Frame(frame_sidebar, bg=self.color_encabezado).pack(fill="both", expand=True)
 
         self.crear_boton(
-            frame_sidebar, "Cerrar sesion", self.cerrar_sesion, "Eliminar.TButton"
+            frame_sidebar, "Cerrar sesion", self.cerrar_sesion, "Eliminar.TButton", "salir"
         ).pack(fill="x", pady=(16, 0))
 
         frame_principal = tk.Frame(self, bg=self.color_fondo)
@@ -124,8 +158,8 @@ class MainView(tk.Frame):
 
         self.mostrar_inicio()
 
-    def crear_boton_menu(self, contenedor, texto, comando):
-        boton = self.crear_boton(contenedor, texto, comando, "MenuApp.TButton")
+    def crear_boton_menu(self, contenedor, texto, comando, icono=None):
+        boton = self.crear_boton(contenedor, texto, comando, "MenuApp.TButton", icono)
         boton.pack(fill="x", pady=(0, 8))
         self.botones_menu[texto] = boton
 
@@ -341,7 +375,7 @@ class MainView(tk.Frame):
         acciones.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(12, 0))
 
         self.crear_boton(
-            acciones, "Registrar venta", self.registrar_venta, "Accion.TButton"
+            acciones, "Registrar venta", self.registrar_venta, "Accion.TButton", "agregar"
         ).pack(fill="x")
 
         # Tabla de ventas
