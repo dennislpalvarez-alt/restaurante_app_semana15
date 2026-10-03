@@ -115,7 +115,7 @@ Navegar al menú lateral "Ventas", seleccionar un usuario y un producto, y proba
 Cerrar y volver a abrir la aplicación para verificar que las ventas se recuperan correctamente desde `ventas.json`.
 
 ## Requisitos técnicos
-- Python 3.8 o superior
+- Python 3.10 o superior. 
 - Tkinter (incluido con la instalación estándar de Python)
 - Pillow, solo si se desea regenerar los íconos PNG (no es necesario para ejecutar la app)
 
